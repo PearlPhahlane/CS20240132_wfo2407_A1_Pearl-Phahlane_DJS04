@@ -1,4 +1,5 @@
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
+import './bookPreviewComponent.js';
 
 // object storing the imported data
 const bookData = {
@@ -10,19 +11,19 @@ const bookData = {
 
 //Functions
 //This function is to be able to Preview the book
-const bookPreview = { create: function(book) {
-   const element = document.createElement("button");
-   element.classList = "preview";
-   element.setAttribute("data-preview", book.id);
-   element.innerHTML = `
-     <img class="preview__image" src="${book.image}" />
-     <div class="preview__info">
-       <h3 class="preview__title">${book.title}</h3>
-       <div class="preview__author">${bookData.authors[book.author]}</div>
-     </div>
-   `;
-   return element;
- },
+const bookPreview = { 
+  create: function(book) {
+    // Create an instance of the custom web component
+    const previewComponent = document.createElement("book-preview-component");
+
+    // Set attributes for the book preview component
+    previewComponent.setAttribute("data-preview", book.id);
+    previewComponent.setAttribute("data-image", book.image);
+    previewComponent.setAttribute("data-title", book.title);
+    previewComponent.setAttribute("data-author", bookData.authors[book.author]);
+
+    return previewComponent;
+  },
 
 // add these new elements to the end of the HTML element's child list
   append: function(starting, newItems, fragment, books) {
@@ -33,7 +34,7 @@ const bookPreview = { create: function(book) {
     }
     //this is where the new added eements will be located in the DOM
     document.querySelector("[data-list-items]").appendChild(newItems);
-    document.querySelector("[data-list-items]").appendChild(fragment)
+    document.querySelector("[data-list-items]").appendChild(fragment);
   },
 };
 //function within searchDropdown object with method create 
